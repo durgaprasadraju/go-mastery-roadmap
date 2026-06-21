@@ -5,6 +5,7 @@
 Implement the core concept from scratch without looking at solutions.
 
 **Requirements:**
+
 - Write idiomatic Go code
 - Include error handling
 - Add at least 3 unit tests
@@ -12,6 +13,7 @@ Implement the core concept from scratch without looking at solutions.
 ## Exercise 2: Production Patterns
 
 Extend your implementation with:
+
 - Context support
 - Structured logging
 - Graceful error wrapping
