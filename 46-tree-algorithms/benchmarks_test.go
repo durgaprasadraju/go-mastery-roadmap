@@ -1,0 +1,13 @@
+package tree_algorithms_test
+
+import (
+	"testing"
+
+	"github.com/go-mastery-roadmap/go-mastery-roadmap/46-tree-algorithms"
+)
+
+func BenchmarkNew(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = tree_algorithms.New()
+	}
+}
