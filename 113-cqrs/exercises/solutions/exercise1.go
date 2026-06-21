@@ -1,31 +1,21 @@
-// Package solutions contains reference implementations for CQRS exercises.
 package solutions
 
-import "errors"
+// CreateUserCommand is a write model command.
+type CreateUserCommand struct{ ID, Email string }
 
-var ErrInvalidInput = errors.New("cqrs: invalid input")
+// UserView is read model projection.
+type UserView struct{ ID, Email string }
 
-// Exercise1Core demonstrates the fundamental CQRS pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// UserStore holds projections.
+type UserStore struct{ views map[string]UserView }
+
+func NewUserStore() *UserStore { return &UserStore{views: make(map[string]UserView)} }
+
+func (s *UserStore) Handle(cmd CreateUserCommand) {
+	s.views[cmd.ID] = UserView{ID: cmd.ID, Email: cmd.Email}
 }
 
-// Exercise1Transform applies a CQRS-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+func (s *UserStore) Get(id string) (UserView, bool) {
+	v, ok := s.views[id]
+	return v, ok
 }

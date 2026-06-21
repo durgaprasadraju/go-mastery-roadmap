@@ -1,10 +1,8 @@
-// Package exercises — solve Interview Challenge before viewing solutions/interview-challenge-solution.go
+// Package exercises — solve before viewing solutions/interview-challenge-solution.go
 package exercises
 
-// InterviewChallenge: Implement a function that demonstrates Control Flow.
-// Requirements: O(n) time, handle edge cases, include tests.
-func InterviewChallenge(input []int) int {
-	// TODO: Your implementation here
-	_ = input
-	return 0
+// InterviewChallenge: FizzBuzz(n) returning slice of strings 1..n with Fizz/Buzz rules
+// Requirements: correct complexity, edge cases, tests.
+func InterviewChallenge() {
+	// TODO: implement for Control Flow
 }

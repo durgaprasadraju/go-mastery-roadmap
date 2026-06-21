@@ -7,20 +7,20 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/pkg/apperrors"
 )
 
-// Exercise2Service demonstrates production patterns for Control Flow.
-type Exercise2Service struct {
-	Topic string
+// Service demonstrates production patterns for Control Flow.
+type Service struct {
+	Name string
 }
 
-// Process runs with context cancellation support.
-func (s *Exercise2Service) Process(ctx context.Context, data string) (string, error) {
+// Process handles Control Flow operations with context cancellation.
+func (s *Service) Process(ctx context.Context, input string) (string, error) {
 	select {
 	case <-ctx.Done():
-		return "", apperrors.Wrap(ctx.Err(), apperrors.CodeInternal, "Control Flow processing cancelled")
+		return "", apperrors.Wrap(ctx.Err(), apperrors.CodeInternal, "Control Flow cancelled")
 	default:
 	}
-	if data == "" {
-		return "", apperrors.New(apperrors.CodeValidation, "data is required")
+	if input == "" {
+		return "", apperrors.New(apperrors.CodeValidation, "input required")
 	}
-	return fmt.Sprintf("[%s] processed: %s", s.Topic, data), nil
+	return fmt.Sprintf("[%s] %s: %s", s.Name, "Control Flow", input), nil
 }

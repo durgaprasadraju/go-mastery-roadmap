@@ -1,31 +1,26 @@
-// Package solutions contains reference implementations for Pipelines exercises.
 package solutions
 
-import "errors"
+import "sync"
 
-var ErrInvalidInput = errors.New("pipelines: invalid input")
-
-// Exercise1Core demonstrates the fundamental Pipelines pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// ParallelSum sums slice using goroutines.
+func ParallelSum(nums []int, workers int) int {
+	if workers < 1 { workers = 1 }
+	chunk := (len(nums) + workers - 1) / workers
+	var wg sync.WaitGroup
+	partial := make([]int, workers)
+	for w := 0; w < workers; w++ {
+		start := w * chunk
+		if start >= len(nums) { break }
+		end := start + chunk
+		if end > len(nums) { end = len(nums) }
+		wg.Add(1)
+		go func(idx, lo, hi int) {
+			defer wg.Done()
+			for i := lo; i < hi; i++ { partial[idx] += nums[i] }
+		}(w, start, end)
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Pipelines-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	wg.Wait()
+	total := 0
+	for _, p := range partial { total += p }
+	return total
 }

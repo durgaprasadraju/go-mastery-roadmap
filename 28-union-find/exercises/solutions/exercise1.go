@@ -1,31 +1,16 @@
-// Package solutions contains reference implementations for Union-Find exercises.
 package solutions
 
-import "errors"
+type UnionFind struct{ parent []int }
 
-var ErrInvalidInput = errors.New("union-find: invalid input")
-
-// Exercise1Core demonstrates the fundamental Union-Find pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+func NewUF(n int) *UnionFind {
+	p := make([]int, n)
+	for i := range p { p[i] = i }
+	return &UnionFind{p}
 }
 
-// Exercise1Transform applies a Union-Find-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+func (uf *UnionFind) Find(x int) int {
+	if uf.parent[x] != x { uf.parent[x] = uf.Find(uf.parent[x]) }
+	return uf.parent[x]
 }
+
+func (uf *UnionFind) Union(a, b int) { pa, pb := uf.Find(a), uf.Find(b); uf.parent[pa] = pb }

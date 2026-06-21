@@ -1,24 +1,24 @@
 # Linked Lists — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+Implement **Linked Lists** from scratch with tests and complexity analysis.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core Linked Lists implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core Linked Lists exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Reverse singly linked list |
 
-## Run Tests
-
-```bash
-go test ./18-linked-lists/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./18-linked-lists/exercises/solutions/...
+go test ./18-linked-lists/exercises/solutions/
+go test -bench=. ./18-linked-lists/exercises/solutions/
 ```

@@ -1,21 +1,19 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Stacks interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
-		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
+// ValidParentheses checks balanced brackets using a stack.
+func ValidParentheses(s string) bool {
+	stack := make([]rune, 0)
+	pairs := map[rune]rune{')': '(', ']': '[', '}': '{'}
+	for _, ch := range s {
+		switch ch {
+		case '(', '[', '{':
+			stack = append(stack, ch)
+		default:
+			if len(stack) == 0 || stack[len(stack)-1] != pairs[ch] {
+				return false
+			}
+			stack = stack[:len(stack)-1]
 		}
 	}
-	return maxGlobal
+	return len(stack) == 0
 }

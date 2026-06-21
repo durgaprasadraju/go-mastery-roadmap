@@ -1,21 +1,12 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Binary Search Trees interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
+// IsValidBST checks whether tree satisfies BST property.
+func IsValidBST(root *TreeNode, min, max int) bool {
+	if root == nil {
+		return true
 	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
-		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
+	if root.Val <= min || root.Val >= max {
+		return false
 	}
-	return maxGlobal
+	return IsValidBST(root.Left, min, root.Val) && IsValidBST(root.Right, root.Val, max)
 }

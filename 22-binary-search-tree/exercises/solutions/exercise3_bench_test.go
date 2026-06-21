@@ -2,25 +2,12 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/22-binary-search-tree/exercises/solutions"
 )
 
-func BenchmarkExercise1Core(b *testing.B) {
-	data := make([]int, 1000)
-	for i := range data {
-		data[i] = i
-	}
+func BenchmarkExercise1(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = solutions.Exercise1Core(data)
-	}
-}
-
-func BenchmarkExercise1Transform(b *testing.B) {
-	s := "benchmark string for Binary Search Trees"
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		_ = solutions.Exercise1Transform(s)
+		root := solutions.InsertBST(nil, 5); solutions.SearchBST(root, 5)
 	}
 }

@@ -1,31 +1,18 @@
-// Package solutions contains reference implementations for Terraform exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("terraform: invalid input")
-
-// Exercise1Core demonstrates the fundamental Terraform pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// HealthStatus represents probe result.
+type HealthStatus struct {
+	OK     bool
+	Reason string
 }
 
-// Exercise1Transform applies a Terraform-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// Liveness returns alive status.
+func Liveness() HealthStatus { return HealthStatus{OK: true} }
+
+// Readiness checks dependencies (stub).
+func Readiness(dbOK, cacheOK bool) HealthStatus {
+	if dbOK && cacheOK {
+		return HealthStatus{OK: true}
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return HealthStatus{OK: false, Reason: "dependency unavailable"}
 }

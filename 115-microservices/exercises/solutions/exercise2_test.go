@@ -7,19 +7,16 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/115-microservices/exercises/solutions"
 )
 
-func TestExercise2Process(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "Microservices"}
-	got, err := svc.Process(context.Background(), "test")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got == "" {
-		t.Fatal("expected non-empty result")
+func TestServiceProcess(t *testing.T) {
+	svc := &solutions.Service{Name: "Microservices"}
+	out, err := svc.Process(context.Background(), "test")
+	if err != nil || out == "" {
+		t.Fatalf("out=%q err=%v", out, err)
 	}
 }
 
-func TestExercise2Validation(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "Microservices"}
+func TestServiceValidation(t *testing.T) {
+	svc := &solutions.Service{Name: "Microservices"}
 	_, err := svc.Process(context.Background(), "")
 	if err == nil {
 		t.Fatal("expected validation error")

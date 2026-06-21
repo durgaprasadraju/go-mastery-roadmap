@@ -1,21 +1,23 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Priority Queues interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
+func MergeSort(arr []int) {
+	if len(arr) < 2 {
+		return
 	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
-		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
+	mid := len(arr) / 2
+	left := append([]int(nil), arr[:mid]...)
+	right := append([]int(nil), arr[mid:]...)
+	MergeSort(left)
+	MergeSort(right)
+	merge(arr, left, right)
+}
+
+func merge(dst, left, right []int) {
+	i,j,k := 0,0,0
+	for i < len(left) && j < len(right) {
+		if left[i] <= right[j] { dst[k]=left[i]; i++ } else { dst[k]=right[j]; j++ }
+		k++
 	}
-	return maxGlobal
+	for i < len(left) { dst[k]=left[i]; i++; k++ }
+	for j < len(right) { dst[k]=right[j]; j++; k++ }
 }

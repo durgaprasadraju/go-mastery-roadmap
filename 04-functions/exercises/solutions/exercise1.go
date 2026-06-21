@@ -1,31 +1,15 @@
-// Package solutions contains reference implementations for Functions & Closures exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("functions: invalid input")
-
-// Exercise1Core demonstrates the fundamental Functions & Closures pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// Compose chains g then f.
+func Compose(f, g func(int) int) func(int) int {
+	return func(x int) int { return f(g(x)) }
 }
 
-// Exercise1Transform applies a Functions & Closures-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// MapInts applies fn to each element.
+func MapInts(xs []int, fn func(int) int) []int {
+	out := make([]int, len(xs))
+	for i, v := range xs {
+		out[i] = fn(v)
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return out
 }

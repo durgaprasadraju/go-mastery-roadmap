@@ -1,31 +1,17 @@
-// Package solutions contains reference implementations for Worker Pools exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("worker-pools: invalid input")
-
-// Exercise1Core demonstrates the fundamental Worker Pools pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// RunPool processes n jobs with w workers.
+func RunPool(jobs, workers int) int {
+	ch := make(chan int, jobs)
+	for i := 0; i < jobs; i++ { ch <- i }
+	close(ch)
+	done := make(chan struct{}, workers)
+	for w := 0; w < workers; w++ {
+		go func() {
+			for range ch {}
+			done <- struct{}{}
+		}()
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Worker Pools-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	for w := 0; w < workers; w++ { <-done }
+	return jobs
 }

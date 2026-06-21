@@ -1,21 +1,15 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Recursion interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
+// Fib returns nth Fibonacci number with memoization.
+func Fib(n int) int {
+	memo := map[int]int{0: 0, 1: 1}
+	var f func(int) int
+	f = func(k int) int {
+		if v, ok := memo[k]; ok {
+			return v
 		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
+		memo[k] = f(k-1) + f(k-2)
+		return memo[k]
 	}
-	return maxGlobal
+	return f(n)
 }

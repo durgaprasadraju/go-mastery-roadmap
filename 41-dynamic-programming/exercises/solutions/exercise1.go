@@ -1,31 +1,13 @@
-// Package solutions contains reference implementations for Dynamic Programming exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("dynamic-programming: invalid input")
-
-// Exercise1Core demonstrates the fundamental Dynamic Programming pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+func CoinChange(coins []int, amount int) int {
+	dp := make([]int, amount+1)
+	for i := 1; i <= amount; i++ { dp[i] = amount + 1 }
+	for i := 1; i <= amount; i++ {
+		for _, c := range coins {
+			if c <= i && dp[i-c]+1 < dp[i] { dp[i] = dp[i-c] + 1 }
+		}
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Dynamic Programming-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	if dp[amount] > amount { return -1 }
+	return dp[amount]
 }

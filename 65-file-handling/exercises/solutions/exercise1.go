@@ -1,31 +1,16 @@
-// Package solutions contains reference implementations for File Handling exercises.
 package solutions
 
-import "errors"
+import "strings"
 
-var ErrInvalidInput = errors.New("file-handling: invalid input")
-
-// Exercise1Core demonstrates the fundamental File Handling pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// Lines splits text into non-empty trimmed lines.
+func Lines(text string) []string {
+	raw := strings.Split(text, "\n")
+	out := make([]string, 0, len(raw))
+	for _, l := range raw {
+		l = strings.TrimSpace(l)
+		if l != "" {
+			out = append(out, l)
+		}
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a File Handling-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return out
 }

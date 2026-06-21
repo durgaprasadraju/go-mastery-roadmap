@@ -7,19 +7,16 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/69-xml/exercises/solutions"
 )
 
-func TestExercise2Process(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "XML"}
-	got, err := svc.Process(context.Background(), "test")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got == "" {
-		t.Fatal("expected non-empty result")
+func TestServiceProcess(t *testing.T) {
+	svc := &solutions.Service{Name: "XML"}
+	out, err := svc.Process(context.Background(), "test")
+	if err != nil || out == "" {
+		t.Fatalf("out=%q err=%v", out, err)
 	}
 }
 
-func TestExercise2Validation(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "XML"}
+func TestServiceValidation(t *testing.T) {
+	svc := &solutions.Service{Name: "XML"}
 	_, err := svc.Process(context.Background(), "")
 	if err == nil {
 		t.Fatal("expected validation error")

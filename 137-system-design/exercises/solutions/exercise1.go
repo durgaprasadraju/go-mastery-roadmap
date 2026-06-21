@@ -1,31 +1,13 @@
-// Package solutions contains reference implementations for System Design exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("system-design: invalid input")
-
-// Exercise1Core demonstrates the fundamental System Design pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// Encode maps id to short code (simplified base62 stub).
+func Encode(id int) string {
+	if id == 0 { return "a" }
+	return string(rune('a' + id%26))
 }
 
-// Exercise1Transform applies a System Design-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+// Decode maps short code back to id (simplified).
+func Decode(code string) int {
+	if code == "" { return 0 }
+	return int(code[0] - 'a')
 }

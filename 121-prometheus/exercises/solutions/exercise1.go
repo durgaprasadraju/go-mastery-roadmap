@@ -1,31 +1,15 @@
-// Package solutions contains reference implementations for Prometheus exercises.
 package solutions
 
-import "errors"
+import "fmt"
 
-var ErrInvalidInput = errors.New("prometheus: invalid input")
-
-// Exercise1Core demonstrates the fundamental Prometheus pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// MetricPoint represents a single metric sample.
+type MetricPoint struct {
+	Name  string
+	Value float64
+	Tags  map[string]string
 }
 
-// Exercise1Transform applies a Prometheus-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+// FormatPrometheus formats a counter metric line.
+func FormatPrometheus(name string, value float64) string {
+	return fmt.Sprintf("%s %.2f", name, value)
 }

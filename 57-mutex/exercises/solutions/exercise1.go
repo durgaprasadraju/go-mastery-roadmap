@@ -1,31 +1,18 @@
-// Package solutions contains reference implementations for Mutex exercises.
 package solutions
 
-import "errors"
+import "sync"
 
-var ErrInvalidInput = errors.New("mutex: invalid input")
+// SafeCounter is mutex-protected.
+type SafeCounter struct{ mu sync.Mutex; n int }
 
-// Exercise1Core demonstrates the fundamental Mutex pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+func (c *SafeCounter) Inc() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.n++
 }
 
-// Exercise1Transform applies a Mutex-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+func (c *SafeCounter) Value() int {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return c.n
 }

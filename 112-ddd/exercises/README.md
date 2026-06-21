@@ -1,29 +1,40 @@
 # Domain-Driven Design — Exercises
 
-## Exercise 1: Fundamentals
+**Domain-Driven Design** — production architecture patterns.
 
-Implement the core concept from scratch without looking at solutions.
+## Exercise 1: Core Implementation
 
-**Requirements:**
-- Write idiomatic Go code
-- Include error handling
-- Add at least 3 unit tests
+Implement and understand the core **Domain-Driven Design** concept in exercise1.go (try yourself first).
+
+**Run tests:**
+```bash
+go test ./112-ddd/exercises/solutions/ -run TestExercise1
+```
 
 ## Exercise 2: Production Patterns
 
-Extend your implementation with:
-- Context support
-- Structured logging
-- Graceful error wrapping
+Add context cancellation and structured errors in your own version, then compare with exercise2.go.
 
-## Exercise 3: Performance
+```bash
+go test ./112-ddd/exercises/solutions/ -run TestService
+```
 
-- Write benchmarks
-- Compare at least 2 approaches
-- Document complexity analysis
+## Exercise 3: Benchmarks
+
+Measure performance of the core implementation.
+
+```bash
+go test -bench=. ./112-ddd/exercises/solutions/
+```
 
 ## Exercise 4: Interview Challenge
 
-Solve the problem in `interview-challenge.go` within 30 minutes.
+**Problem:** Model Order aggregate with domain invariants
 
-Check `solutions/` after attempting all exercises.
+Work in interview-challenge.go for 30 minutes before checking solutions/interview-challenge-solution.go.
+
+```bash
+go test ./112-ddd/exercises/solutions/ -run TestInterviewChallenge
+```
+
+> Solutions are in solutions/ — attempt all exercises first.

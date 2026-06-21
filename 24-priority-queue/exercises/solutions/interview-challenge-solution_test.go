@@ -2,13 +2,13 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/24-priority-queue/exercises/solutions"
 )
 
-func TestInterviewChallengeSolution(t *testing.T) {
-	got := solutions.InterviewChallengeSolution([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	if got != 6 {
-		t.Fatalf("got %d want 6", got)
+func TestMergeSort(t *testing.T) {
+	a := []int{5,2,8,1}
+	solutions.MergeSort(a)
+	if a[0] != 1 || a[len(a)-1] != 8 {
+		t.Fatalf("got %v", a)
 	}
 }

@@ -1,24 +1,24 @@
 # Interview Preparation — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+**Interview Preparation** — roadmap and reference material.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core Interview Preparation implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core Interview Preparation exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Plan a learning path for Go backend engineering |
 
-## Run Tests
-
-```bash
-go test ./148-interview-preparation/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./148-interview-preparation/exercises/solutions/...
+go test ./148-interview-preparation/exercises/solutions/
+go test -bench=. ./148-interview-preparation/exercises/solutions/
 ```

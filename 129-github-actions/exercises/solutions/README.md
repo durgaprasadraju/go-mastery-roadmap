@@ -1,24 +1,24 @@
 # GitHub Actions — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+**GitHub Actions** — containers, K8s, CI/CD, IaC.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core GitHub Actions implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core GitHub Actions exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Design Kubernetes liveness/readiness probes |
 
-## Run Tests
-
-```bash
-go test ./129-github-actions/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./129-github-actions/exercises/solutions/...
+go test ./129-github-actions/exercises/solutions/
+go test -bench=. ./129-github-actions/exercises/solutions/
 ```

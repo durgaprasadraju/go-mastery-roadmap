@@ -1,31 +1,61 @@
-// Package solutions contains reference implementations for JWT exercises.
 package solutions
 
-import "errors"
+import (
+	"encoding/base64"
+	"encoding/json"
+	"errors"
+	"strings"
+	"time"
+)
 
-var ErrInvalidInput = errors.New("jwt: invalid input")
+var ErrInvalidToken = errors.New("invalid jwt token")
 
-// Exercise1Core demonstrates the fundamental JWT pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// Claims represents simplified JWT payload.
+type Claims struct {
+	Sub string `json:"sub"`
+	Exp int64  `json:"exp"`
 }
 
-// Exercise1Transform applies a JWT-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// CreateToken builds unsigned JWT for learning — use a JWT library in production.
+func CreateToken(sub string, ttl time.Duration) (string, error) {
+	if sub == "" {
+		return "", ErrInvalidToken
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	header := base64.RawURLEncoding.EncodeToString([]byte(`{"alg":"none","typ":"JWT"}`))
+	payload, err := json.Marshal(Claims{Sub: sub, Exp: time.Now().Add(ttl).Unix()})
+	if err != nil {
+		return "", err
 	}
-	return string(runes)
+	body := base64.RawURLEncoding.EncodeToString(payload)
+	return header + "." + body + ".", nil
+}
+
+// ParseClaims decodes payload from unsigned JWT.
+func ParseClaims(token string) (Claims, error) {
+	parts := strings.Split(token, ".")
+	if len(parts) < 2 {
+		return Claims{}, ErrInvalidToken
+	}
+	raw, err := base64.RawURLEncoding.DecodeString(parts[1])
+	if err != nil {
+		return Claims{}, err
+	}
+	var c Claims
+	if err := json.Unmarshal(raw, &c); err != nil {
+		return Claims{}, err
+	}
+	if c.Exp < time.Now().Unix() {
+		return Claims{}, ErrInvalidToken
+	}
+	return c, nil
+}
+
+// ParseBearer extracts token from Authorization header.
+func ParseBearer(header string) (string, bool) {
+	const p = "Bearer "
+	if !strings.HasPrefix(header, p) {
+		return "", false
+	}
+	tok := strings.TrimSpace(header[len(p):])
+	return tok, tok != ""
 }

@@ -1,24 +1,24 @@
 # Redis — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+**Redis** — pub/sub, streaming, queues.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core Redis implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core Redis exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Design idempotent Kafka consumer |
 
-## Run Tests
-
-```bash
-go test ./131-redis/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./131-redis/exercises/solutions/...
+go test ./131-redis/exercises/solutions/
+go test -bench=. ./131-redis/exercises/solutions/
 ```

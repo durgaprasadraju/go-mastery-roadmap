@@ -2,13 +2,13 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/31-sorting/exercises/solutions"
 )
 
-func TestInterviewChallengeSolution(t *testing.T) {
-	got := solutions.InterviewChallengeSolution([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	if got != 6 {
-		t.Fatalf("got %d want 6", got)
+func TestSortColors(t *testing.T) {
+	a := []int{2,0,2,1,1,0}
+	solutions.SortColors(a)
+	if a[0] != 0 || a[len(a)-1] != 2 {
+		t.Fatalf("got %v", a)
 	}
 }

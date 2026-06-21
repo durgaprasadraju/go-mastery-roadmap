@@ -1,31 +1,30 @@
-// Package solutions contains reference implementations for Caching Strategies exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("caching: invalid input")
-
-// Exercise1Core demonstrates the fundamental Caching Strategies pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+type LRU struct {
+	cap   int
+	order []string
+	data  map[string]int
 }
 
-// Exercise1Transform applies a Caching Strategies-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+func NewLRU(cap int) *LRU {
+	return &LRU{cap: cap, data: make(map[string]int)}
+}
+
+func (c *LRU) Put(key string, val int) {
+	if c.cap == 0 { return }
+	if _, ok := c.data[key]; ok {
+		c.data[key] = val
+		return
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	if len(c.order) >= c.cap {
+		delete(c.data, c.order[0])
+		c.order = c.order[1:]
 	}
-	return string(runes)
+	c.order = append(c.order, key)
+	c.data[key] = val
+}
+
+func (c *LRU) Get(key string) (int, bool) {
+	v, ok := c.data[key]
+	return v, ok
 }

@@ -1,24 +1,24 @@
 # Math Algorithms — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+**Math Algorithms** — implement, analyze complexity, and benchmark.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core Math Algorithms implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core Math Algorithms exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Sieve of Eratosthenes |
 
-## Run Tests
-
-```bash
-go test ./43-math-algorithms/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./43-math-algorithms/exercises/solutions/...
+go test ./43-math-algorithms/exercises/solutions/
+go test -bench=. ./43-math-algorithms/exercises/solutions/
 ```

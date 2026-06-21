@@ -1,31 +1,18 @@
-// Package solutions contains reference implementations for Context exercises.
 package solutions
 
-import "errors"
+import (
+	"context"
+	"time"
+)
 
-var ErrInvalidInput = errors.New("context: invalid input")
-
-// Exercise1Core demonstrates the fundamental Context pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// WithTimeoutOp runs until context deadline.
+func WithTimeoutOp(ctx context.Context, ms int) error {
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(ms)*time.Millisecond)
+	defer cancel()
+	select {
+	case <-time.After(time.Duration(ms*2) * time.Millisecond):
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Context-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

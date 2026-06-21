@@ -1,31 +1,9 @@
-// Package solutions contains reference implementations for Atomic Operations exercises.
 package solutions
 
-import "errors"
+import "sync/atomic"
 
-var ErrInvalidInput = errors.New("atomic: invalid input")
+// AtomicCounter uses atomic operations.
+type AtomicCounter struct{ n int64 }
 
-// Exercise1Core demonstrates the fundamental Atomic Operations pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Atomic Operations-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
-}
+func (c *AtomicCounter) Add(v int64) { atomic.AddInt64(&c.n, v) }
+func (c *AtomicCounter) Load() int64 { return atomic.LoadInt64(&c.n) }

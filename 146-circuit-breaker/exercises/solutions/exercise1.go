@@ -1,31 +1,30 @@
-// Package solutions contains reference implementations for Circuit Breaker exercises.
 package solutions
 
 import "errors"
 
-var ErrInvalidInput = errors.New("circuit-breaker: invalid input")
+var ErrCircuitOpen = errors.New("circuit open")
 
-// Exercise1Core demonstrates the fundamental Circuit Breaker pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// CircuitBreaker has closed/open states (simplified).
+type CircuitBreaker struct {
+	failures, threshold int
+	open                bool
 }
 
-// Exercise1Transform applies a Circuit Breaker-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+func NewCircuitBreaker(threshold int) *CircuitBreaker {
+	return &CircuitBreaker{threshold: threshold}
+}
+
+func (cb *CircuitBreaker) Call(fn func() error) error {
+	if cb.open {
+		return ErrCircuitOpen
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	if err := fn(); err != nil {
+		cb.failures++
+		if cb.failures >= cb.threshold {
+			cb.open = true
+		}
+		return err
 	}
-	return string(runes)
+	cb.failures = 0
+	return nil
 }

@@ -1,31 +1,20 @@
-// Package solutions contains reference implementations for Backtracking exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("backtracking: invalid input")
-
-// Exercise1Core demonstrates the fundamental Backtracking pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+func Permute(nums []int) [][]int {
+	var res [][]int
+	var backtrack func(int)
+	backtrack = func(start int) {
+		if start == len(nums) {
+			cp := append([]int(nil), nums...)
+			res = append(res, cp)
+			return
+		}
+		for i := start; i < len(nums); i++ {
+			nums[start], nums[i] = nums[i], nums[start]
+			backtrack(start + 1)
+			nums[start], nums[i] = nums[i], nums[start]
+		}
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Backtracking-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	backtrack(0)
+	return res
 }

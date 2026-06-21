@@ -1,31 +1,24 @@
-// Package solutions contains reference implementations for Security Fundamentals exercises.
 package solutions
 
-import "errors"
+import (
+	"crypto/sha256"
+	"encoding/hex"
+)
 
-var ErrInvalidInput = errors.New("security: invalid input")
-
-// Exercise1Core demonstrates the fundamental Security Fundamentals pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// HashPasswordSHA256 hashes password (use bcrypt/argon2 in production).
+func HashPasswordSHA256(password string) string {
+	h := sha256.Sum256([]byte(password))
+	return hex.EncodeToString(h[:])
 }
 
-// Exercise1Transform applies a Security Fundamentals-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// ConstantTimeCompare compares strings in constant time (simplified).
+func ConstantTimeCompare(a, b string) bool {
+	if len(a) != len(b) {
+		return false
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	var result byte
+	for i := 0; i < len(a); i++ {
+		result |= a[i] ^ b[i]
 	}
-	return string(runes)
+	return result == 0
 }

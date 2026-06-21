@@ -1,31 +1,22 @@
-// Package solutions contains reference implementations for Graphs exercises.
 package solutions
 
-import "errors"
+// Graph adjacency list.
+type Graph map[int][]int
 
-var ErrInvalidInput = errors.New("graphs: invalid input")
-
-// Exercise1Core demonstrates the fundamental Graphs pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+func (g Graph) BFS(start int) []int {
+	visited := map[int]bool{start: true}
+	q := []int{start}
+	order := []int{start}
+	for len(q) > 0 {
+		v := q[0]
+		q = q[1:]
+		for _, nei := range g[v] {
+			if !visited[nei] {
+				visited[nei] = true
+				q = append(q, nei)
+				order = append(order, nei)
+			}
+		}
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Graphs-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return order
 }

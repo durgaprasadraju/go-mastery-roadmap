@@ -1,31 +1,29 @@
-// Package solutions contains reference implementations for Domain-Driven Design exercises.
 package solutions
 
 import "errors"
 
-var ErrInvalidInput = errors.New("ddd: invalid input")
+var ErrInvalidOrder = errors.New("invalid order")
 
-// Exercise1Core demonstrates the fundamental Domain-Driven Design pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// Order is a DDD aggregate root.
+type Order struct {
+	ID     string
+	Items  []string
+	Status string
 }
 
-// Exercise1Transform applies a Domain-Driven Design-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// NewOrder creates a pending order with at least one item.
+func NewOrder(id string, items []string) (*Order, error) {
+	if id == "" || len(items) == 0 {
+		return nil, ErrInvalidOrder
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	return &Order{ID: id, Items: append([]string(nil), items...), Status: "pending"}, nil
+}
+
+// Ship transitions order to shipped if pending.
+func (o *Order) Ship() error {
+	if o.Status != "pending" {
+		return ErrInvalidOrder
 	}
-	return string(runes)
+	o.Status = "shipped"
+	return nil
 }

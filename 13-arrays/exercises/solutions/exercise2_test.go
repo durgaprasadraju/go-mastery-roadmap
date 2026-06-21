@@ -7,19 +7,16 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/13-arrays/exercises/solutions"
 )
 
-func TestExercise2Process(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "Arrays"}
-	got, err := svc.Process(context.Background(), "test")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got == "" {
-		t.Fatal("expected non-empty result")
+func TestServiceProcess(t *testing.T) {
+	svc := &solutions.Service{Name: "Arrays"}
+	out, err := svc.Process(context.Background(), "test")
+	if err != nil || out == "" {
+		t.Fatalf("out=%q err=%v", out, err)
 	}
 }
 
-func TestExercise2Validation(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "Arrays"}
+func TestServiceValidation(t *testing.T) {
+	svc := &solutions.Service{Name: "Arrays"}
 	_, err := svc.Process(context.Background(), "")
 	if err == nil {
 		t.Fatal("expected validation error")

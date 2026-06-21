@@ -2,13 +2,13 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/18-linked-lists/exercises/solutions"
 )
 
-func TestInterviewChallengeSolution(t *testing.T) {
-	got := solutions.InterviewChallengeSolution([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	if got != 6 {
-		t.Fatalf("got %d want 6", got)
+func TestReverseList(t *testing.T) {
+	n := solutions.Prepend(solutions.Prepend(nil, 2), 1)
+	r := solutions.ReverseList(n)
+	if r.Val != 2 {
+		t.Fatal("reverse failed")
 	}
 }

@@ -1,31 +1,25 @@
-// Package solutions contains reference implementations for Tries exercises.
 package solutions
 
-import "errors"
+type Trie struct{ children map[rune]*Trie; end bool }
 
-var ErrInvalidInput = errors.New("trie: invalid input")
+func NewTrie() *Trie { return &Trie{children: make(map[rune]*Trie)} }
 
-// Exercise1Core demonstrates the fundamental Tries pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+func (t *Trie) Insert(word string) {
+	cur := t
+	for _, ch := range word {
+		if cur.children[ch] == nil {
+			cur.children[ch] = &Trie{children: make(map[rune]*Trie)}
+		}
+		cur = cur.children[ch]
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+	cur.end = true
 }
 
-// Exercise1Transform applies a Tries-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+func (t *Trie) Search(word string) bool {
+	cur := t
+	for _, ch := range word {
+		if cur.children[ch] == nil { return false }
+		cur = cur.children[ch]
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return cur.end
 }

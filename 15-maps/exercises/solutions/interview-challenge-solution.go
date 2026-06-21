@@ -1,21 +1,13 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Maps interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
+// TwoSum returns indices of two numbers summing to target.
+func TwoSum(nums []int, target int) [2]int {
+	seen := make(map[int]int)
+	for i, n := range nums {
+		if j, ok := seen[target-n]; ok {
+			return [2]int{j, i}
 		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
+		seen[n] = i
 	}
-	return maxGlobal
+	return [2]int{-1, -1}
 }

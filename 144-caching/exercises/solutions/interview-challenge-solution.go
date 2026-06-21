@@ -1,21 +1,10 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Caching Strategies interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
+// InterviewChallengeSolution reports LRU cache size after puts.
+func InterviewChallengeSolution(keys []string, cap int) int {
+	c := NewLRU(cap)
+	for _, k := range keys {
+		c.Put(k, 1)
 	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
-		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
-	}
-	return maxGlobal
+	return len(c.order)
 }

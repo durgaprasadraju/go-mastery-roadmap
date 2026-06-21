@@ -1,31 +1,23 @@
-// Package solutions contains reference implementations for Divide & Conquer exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("divide-conquer: invalid input")
-
-// Exercise1Core demonstrates the fundamental Divide & Conquer pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+func MergeSort(arr []int) {
+	if len(arr) < 2 {
+		return
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+	mid := len(arr) / 2
+	left := append([]int(nil), arr[:mid]...)
+	right := append([]int(nil), arr[mid:]...)
+	MergeSort(left)
+	MergeSort(right)
+	merge(arr, left, right)
 }
 
-// Exercise1Transform applies a Divide & Conquer-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+func merge(dst, left, right []int) {
+	i,j,k := 0,0,0
+	for i < len(left) && j < len(right) {
+		if left[i] <= right[j] { dst[k]=left[i]; i++ } else { dst[k]=right[j]; j++ }
+		k++
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	for i < len(left) { dst[k]=left[i]; i++; k++ }
+	for j < len(right) { dst[k]=right[j]; j++; k++ }
 }

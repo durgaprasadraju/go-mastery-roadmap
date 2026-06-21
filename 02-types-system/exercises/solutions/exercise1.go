@@ -1,31 +1,21 @@
-// Package solutions contains reference implementations for Go Type System exercises.
 package solutions
 
-import "errors"
+import "fmt"
 
-var ErrInvalidInput = errors.New("types-system: invalid input")
-
-// Exercise1Core demonstrates the fundamental Go Type System pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// TypeName returns the dynamic type name of v.
+func TypeName(v any) string {
+	if v == nil {
+		return "nil"
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+	return fmt.Sprintf("%T", v)
 }
 
-// Exercise1Transform applies a Go Type System-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// IsNumeric reports whether v is an integer or float type.
+func IsNumeric(v any) bool {
+	switch v.(type) {
+	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64:
+		return true
+	default:
+		return false
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

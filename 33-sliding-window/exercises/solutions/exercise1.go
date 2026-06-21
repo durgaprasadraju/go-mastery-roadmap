@@ -1,31 +1,13 @@
-// Package solutions contains reference implementations for Sliding Window exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("sliding-window: invalid input")
-
-// Exercise1Core demonstrates the fundamental Sliding Window pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
+func MaxSumSubarrayK(arr []int, k int) int {
+	if len(arr) < k { return 0 }
 	sum := 0
-	for _, v := range input {
-		sum += v
+	for i := 0; i < k; i++ { sum += arr[i] }
+	max := sum
+	for i := k; i < len(arr); i++ {
+		sum += arr[i] - arr[i-k]
+		if sum > max { max = sum }
 	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Sliding Window-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return max
 }

@@ -6,32 +6,11 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/91-orm-gorm/exercises/solutions"
 )
 
-func TestExercise1Core(t *testing.T) {
-	tests := []struct {
-		name    string
-		input   []int
-		want    int
-		wantErr bool
-	}{
-		{"empty", nil, 0, true},
-		{"single", []int{5}, 5, false},
-		{"multiple", []int{1, 2, 3}, 6, false},
+func TestExercise1(t *testing.T) {
+	if got := solutions.BuildSelect("users",[]string{"id","name"},"id=$1"); got != "SELECT id, name FROM users WHERE id=$1" {
+		t.Fatalf("got %v want %v", got, "SELECT id, name FROM users WHERE id=$1")
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := solutions.Exercise1Core(tt.input)
-			if tt.wantErr && err == nil {
-				t.Fatal("expected error")
-			}
-			if !tt.wantErr && got != tt.want {
-				t.Fatalf("got %d want %d", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestExercise1Transform(t *testing.T) {
-	if got := solutions.Exercise1Transform("hello"); got != "olleh" {
-		t.Fatalf("got %q", got)
+	if got := solutions.QuoteIdentifier("order"); got != "\"order\"" {
+		t.Fatalf("got %v want %v", got, "\"order\"")
 	}
 }

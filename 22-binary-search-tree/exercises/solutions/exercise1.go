@@ -1,31 +1,30 @@
-// Package solutions contains reference implementations for Binary Search Trees exercises.
 package solutions
 
-import "errors"
+type TreeNode struct{ Val int; Left, Right *TreeNode }
 
-var ErrInvalidInput = errors.New("binary-search-tree: invalid input")
-
-// Exercise1Core demonstrates the fundamental Binary Search Trees pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// InsertBST inserts val into BST rooted at node.
+func InsertBST(root *TreeNode, val int) *TreeNode {
+	if root == nil {
+		return &TreeNode{Val: val}
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
+	if val < root.Val {
+		root.Left = InsertBST(root.Left, val)
+	} else if val > root.Val {
+		root.Right = InsertBST(root.Right, val)
 	}
-	return sum, nil
+	return root
 }
 
-// Exercise1Transform applies a Binary Search Trees-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+// SearchBST returns true if val exists in BST.
+func SearchBST(root *TreeNode, val int) bool {
+	if root == nil {
+		return false
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	if val == root.Val {
+		return true
 	}
-	return string(runes)
+	if val < root.Val {
+		return SearchBST(root.Left, val)
+	}
+	return SearchBST(root.Right, val)
 }

@@ -2,25 +2,12 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/64-concurrency-patterns/exercises/solutions"
 )
 
-func BenchmarkExercise1Core(b *testing.B) {
-	data := make([]int, 1000)
-	for i := range data {
-		data[i] = i
-	}
+func BenchmarkExercise1(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = solutions.Exercise1Core(data)
-	}
-}
-
-func BenchmarkExercise1Transform(b *testing.B) {
-	s := "benchmark string for Concurrency Patterns"
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		_ = solutions.Exercise1Transform(s)
+		solutions.ParallelSum([]int{1,2,3}, 2)
 	}
 }

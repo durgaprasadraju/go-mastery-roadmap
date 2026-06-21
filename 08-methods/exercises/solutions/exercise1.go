@@ -1,31 +1,20 @@
-// Package solutions contains reference implementations for Methods exercises.
 package solutions
 
 import "errors"
 
-var ErrInvalidInput = errors.New("methods: invalid input")
+var ErrInsufficientFunds = errors.New("insufficient funds")
 
-// Exercise1Core demonstrates the fundamental Methods pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// BankAccount with balance.
+type BankAccount struct{ balance int }
+
+func (a *BankAccount) Deposit(amount int) { a.balance += amount }
+
+func (a *BankAccount) Withdraw(amount int) error {
+	if amount > a.balance {
+		return ErrInsufficientFunds
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+	a.balance -= amount
+	return nil
 }
 
-// Exercise1Transform applies a Methods-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
-}
+func (a BankAccount) Balance() int { return a.balance }

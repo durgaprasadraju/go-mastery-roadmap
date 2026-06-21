@@ -1,31 +1,7 @@
-// Package solutions contains reference implementations for Unit Testing exercises.
 package solutions
 
-import "errors"
+// Add returns sum of two integers (trivial function to test).
+func Add(a, b int) int { return a + b }
 
-var ErrInvalidInput = errors.New("unit-testing: invalid input")
-
-// Exercise1Core demonstrates the fundamental Unit Testing pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Unit Testing-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
-}
+// IsEven reports whether n is even.
+func IsEven(n int) bool { return n%2 == 0 }

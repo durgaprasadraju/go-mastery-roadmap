@@ -2,13 +2,16 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/133-rabbitmq/exercises/solutions"
 )
 
-func TestInterviewChallengeSolution(t *testing.T) {
-	got := solutions.InterviewChallengeSolution([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	if got != 6 {
-		t.Fatalf("got %d want 6", got)
+func TestIdempotentConsumer(t *testing.T) {
+	p := solutions.NewProcessedSet()
+	calls := 0
+	fn := func() error { calls++; return nil }
+	_ = p.Handle("m1", fn)
+	_ = p.Handle("m1", fn)
+	if calls != 1 {
+		t.Fatal("expected single processing")
 	}
 }

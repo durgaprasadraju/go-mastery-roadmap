@@ -1,31 +1,14 @@
-// Package solutions contains reference implementations for Error Handling exercises.
 package solutions
 
-import "errors"
+import "fmt"
 
-var ErrInvalidInput = errors.New("error-handling: invalid input")
-
-// Exercise1Core demonstrates the fundamental Error Handling pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// Divide returns a/b with wrapped error on division by zero.
+func Divide(a, b int) (int, error) {
+	if b == 0 {
+		return 0, fmt.Errorf("divide %d by zero: %w", a, ErrDivZero)
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+	return a / b, nil
 }
 
-// Exercise1Transform applies a Error Handling-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
-}
+// ErrDivZero is returned when divisor is zero.
+var ErrDivZero = fmt.Errorf("division by zero")

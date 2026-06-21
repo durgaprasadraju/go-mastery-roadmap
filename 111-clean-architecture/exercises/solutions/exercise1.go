@@ -1,31 +1,16 @@
-// Package solutions contains reference implementations for Clean Architecture exercises.
 package solutions
 
-import "errors"
+// User is domain entity.
+type User struct{ ID, Email string }
 
-var ErrInvalidInput = errors.New("clean-architecture: invalid input")
-
-// Exercise1Core demonstrates the fundamental Clean Architecture pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// UserRepository defines persistence port.
+type UserRepository interface {
+	GetByID(id string) (User, error)
 }
 
-// Exercise1Transform applies a Clean Architecture-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+// GetUserEmail is application use case.
+func GetUserEmail(repo UserRepository, id string) (string, error) {
+	u, err := repo.GetByID(id)
+	if err != nil { return "", err }
+	return u.Email, nil
 }

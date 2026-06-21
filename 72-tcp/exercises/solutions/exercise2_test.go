@@ -7,19 +7,16 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/72-tcp/exercises/solutions"
 )
 
-func TestExercise2Process(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "TCP"}
-	got, err := svc.Process(context.Background(), "test")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got == "" {
-		t.Fatal("expected non-empty result")
+func TestServiceProcess(t *testing.T) {
+	svc := &solutions.Service{Name: "TCP"}
+	out, err := svc.Process(context.Background(), "test")
+	if err != nil || out == "" {
+		t.Fatalf("out=%q err=%v", out, err)
 	}
 }
 
-func TestExercise2Validation(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "TCP"}
+func TestServiceValidation(t *testing.T) {
+	svc := &solutions.Service{Name: "TCP"}
 	_, err := svc.Process(context.Background(), "")
 	if err == nil {
 		t.Fatal("expected validation error")

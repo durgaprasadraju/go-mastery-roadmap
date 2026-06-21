@@ -1,24 +1,24 @@
 # Complexity Analysis — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+Analyze time/space complexity of algorithms.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core Complexity Analysis implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core Complexity Analysis exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Compare O(n), O(n log n), O(n^2) for given input sizes |
 
-## Run Tests
-
-```bash
-go test ./48-complexity-analysis/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./48-complexity-analysis/exercises/solutions/...
+go test ./48-complexity-analysis/exercises/solutions/
+go test -bench=. ./48-complexity-analysis/exercises/solutions/
 ```

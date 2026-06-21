@@ -1,24 +1,24 @@
 # GORM ORM — Exercise Solutions
 
-> Attempt the exercises in `../README.md` before reading these solutions.
+> Attempt exercises in ../README.md before reading these solutions.
+
+## Topic
+
+**GORM ORM** — SQL, pooling, transactions.
 
 ## Files
 
-| File | Exercise | Description |
-|------|----------|-------------|
-| `exercise1.go` | Exercise 1 | Core GORM ORM implementation |
-| `exercise1_test.go` | Exercise 1 | Unit tests |
-| `exercise2.go` | Exercise 2 | Production patterns (context, errors) |
-| `exercise3_bench_test.go` | Exercise 3 | Benchmarks and complexity notes |
+| File | Description |
+|------|-------------|
+| exercise1.go | Core GORM ORM exercise |
+| exercise1_test.go | Unit tests |
+| exercise2.go | Production patterns (context + structured errors) |
+| exercise3_bench_test.go | Performance benchmarks |
+| interview-challenge-solution.go | Design repository pattern with transactions |
 
-## Run Tests
-
-```bash
-go test ./91-orm-gorm/exercises/solutions/...
-```
-
-## Run Benchmarks
+## Run
 
 ```bash
-go test -bench=. ./91-orm-gorm/exercises/solutions/...
+go test ./91-orm-gorm/exercises/solutions/
+go test -bench=. ./91-orm-gorm/exercises/solutions/
 ```

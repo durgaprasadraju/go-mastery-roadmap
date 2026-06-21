@@ -1,31 +1,21 @@
-// Package solutions contains reference implementations for Monotonic Queue exercises.
 package solutions
 
 import "errors"
 
-var ErrInvalidInput = errors.New("monotonic-queue: invalid input")
+var ErrQueueEmpty = errors.New("queue empty")
 
-// Exercise1Core demonstrates the fundamental Monotonic Queue pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
+// Queue is FIFO.
+type Queue struct{ items []int }
 
-// Exercise1Transform applies a Monotonic Queue-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+func NewQueue() *Queue { return &Queue{} }
+
+func (q *Queue) Enqueue(v int) { q.items = append(q.items, v) }
+
+func (q *Queue) Dequeue() (int, error) {
+	if len(q.items) == 0 {
+		return 0, ErrQueueEmpty
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	v := q.items[0]
+	q.items = q.items[1:]
+	return v, nil
 }

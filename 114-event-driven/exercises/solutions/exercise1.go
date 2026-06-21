@@ -1,31 +1,18 @@
-// Package solutions contains reference implementations for Event-Driven Architecture exercises.
 package solutions
 
-import "errors"
+// DomainEvent represents something that happened.
+type DomainEvent struct{ Name string; Payload string }
 
-var ErrInvalidInput = errors.New("event-driven: invalid input")
-
-// Exercise1Core demonstrates the fundamental Event-Driven Architecture pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+// OrderWithEvents emits events on state change.
+type OrderWithEvents struct {
+	ID     string
+	Status string
+	events []DomainEvent
 }
 
-// Exercise1Transform applies a Event-Driven Architecture-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+func (o *OrderWithEvents) Ship() {
+	o.Status = "shipped"
+	o.events = append(o.events, DomainEvent{Name: "OrderShipped", Payload: o.ID})
 }
+
+func (o *OrderWithEvents) Events() []DomainEvent { return o.events }

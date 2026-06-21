@@ -1,31 +1,22 @@
-// Package solutions contains reference implementations for Control Flow exercises.
 package solutions
 
-import "errors"
+import "strconv"
 
-var ErrInvalidInput = errors.New("control-flow: invalid input")
-
-// Exercise1Core demonstrates the fundamental Control Flow pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// FizzBuzz returns FizzBuzz strings for 1..n.
+func FizzBuzz(n int) []string {
+	out := make([]string, n)
+	for i := 1; i <= n; i++ {
+		s := ""
+		if i%3 == 0 {
+			s += "Fizz"
+		}
+		if i%5 == 0 {
+			s += "Buzz"
+		}
+		if s == "" {
+			s = strconv.Itoa(i)
+		}
+		out[i-1] = s
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Control Flow-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return out
 }

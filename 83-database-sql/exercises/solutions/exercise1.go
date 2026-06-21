@@ -1,31 +1,17 @@
-// Package solutions contains reference implementations for SQL Fundamentals exercises.
 package solutions
 
-import "errors"
+import "strings"
 
-var ErrInvalidInput = errors.New("database-sql: invalid input")
-
-// Exercise1Core demonstrates the fundamental SQL Fundamentals pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// BuildSelect builds a parameterized SELECT query.
+func BuildSelect(table string, columns []string, where string) string {
+	q := "SELECT " + strings.Join(columns, ", ") + " FROM " + table
+	if where != "" {
+		q += " WHERE " + where
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
+	return q
 }
 
-// Exercise1Transform applies a SQL Fundamentals-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+// QuoteIdentifier escapes a SQL identifier (simplified).
+func QuoteIdentifier(name string) string {
+	return "\"" + strings.ReplaceAll(name, "\"", "\"\"") + "\""
 }

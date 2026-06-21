@@ -1,21 +1,39 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Transactions interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
+import "errors"
+
+var ErrNotFound = errors.New("not found")
+
+// User is domain entity.
+type User struct{ ID, Email string }
+
+// UserRepository defines persistence port.
+type UserRepository interface {
+	GetByID(id string) (User, error)
+}
+
+// GetUserEmail is application use case.
+func GetUserEmail(repo UserRepository, id string) (string, error) {
+	u, err := repo.GetByID(id)
+	if err != nil {
+		return "", err
 	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
-		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
+	return u.Email, nil
+}
+
+// InMemoryUserRepo is infrastructure adapter.
+type InMemoryUserRepo struct{ data map[string]User }
+
+func NewInMemoryUserRepo() *InMemoryUserRepo {
+	return &InMemoryUserRepo{data: make(map[string]User)}
+}
+
+func (r *InMemoryUserRepo) Save(u User) { r.data[u.ID] = u }
+
+func (r *InMemoryUserRepo) GetByID(id string) (User, error) {
+	u, ok := r.data[id]
+	if !ok {
+		return User{}, ErrNotFound
 	}
-	return maxGlobal
+	return u, nil
 }

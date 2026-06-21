@@ -1,31 +1,22 @@
-// Package solutions contains reference implementations for Monotonic Stack exercises.
 package solutions
 
 import "errors"
 
-var ErrInvalidInput = errors.New("monotonic-stack: invalid input")
+var ErrEmpty = errors.New("stack empty")
 
-// Exercise1Core demonstrates the fundamental Monotonic Stack pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
-	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
+// Stack is a LIFO stack.
+type Stack struct{ items []int }
 
-// Exercise1Transform applies a Monotonic Stack-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+func NewStack() *Stack { return &Stack{} }
+
+func (s *Stack) Push(v int) { s.items = append(s.items, v) }
+
+func (s *Stack) Pop() (int, error) {
+	if len(s.items) == 0 {
+		return 0, ErrEmpty
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	i := len(s.items) - 1
+	v := s.items[i]
+	s.items = s.items[:i]
+	return v, nil
 }

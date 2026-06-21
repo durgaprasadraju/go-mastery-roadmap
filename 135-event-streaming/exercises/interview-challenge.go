@@ -1,10 +1,8 @@
-// Package exercises — solve Interview Challenge before viewing solutions/interview-challenge-solution.go
+// Package exercises — solve before viewing solutions/interview-challenge-solution.go
 package exercises
 
-// InterviewChallenge: Implement a function that demonstrates Event Streaming.
-// Requirements: O(n) time, handle edge cases, include tests.
-func InterviewChallenge(input []int) int {
-	// TODO: Your implementation here
-	_ = input
-	return 0
+// InterviewChallenge: Design idempotent Kafka consumer
+// Requirements: correct complexity, edge cases, tests.
+func InterviewChallenge() {
+	// TODO: implement for Event Streaming
 }

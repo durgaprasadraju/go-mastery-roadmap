@@ -7,19 +7,16 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/147-production-projects/exercises/solutions"
 )
 
-func TestExercise2Process(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "Production Projects"}
-	got, err := svc.Process(context.Background(), "test")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got == "" {
-		t.Fatal("expected non-empty result")
+func TestServiceProcess(t *testing.T) {
+	svc := &solutions.Service{Name: "Production Projects"}
+	out, err := svc.Process(context.Background(), "test")
+	if err != nil || out == "" {
+		t.Fatalf("out=%q err=%v", out, err)
 	}
 }
 
-func TestExercise2Validation(t *testing.T) {
-	svc := &solutions.Exercise2Service{Topic: "Production Projects"}
+func TestServiceValidation(t *testing.T) {
+	svc := &solutions.Service{Name: "Production Projects"}
 	_, err := svc.Process(context.Background(), "")
 	if err == nil {
 		t.Fatal("expected validation error")

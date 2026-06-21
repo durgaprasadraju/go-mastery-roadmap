@@ -2,36 +2,19 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/118-repository-pattern/exercises/solutions"
 )
 
-func TestExercise1Core(t *testing.T) {
-	tests := []struct {
-		name    string
-		input   []int
-		want    int
-		wantErr bool
-	}{
-		{"empty", nil, 0, true},
-		{"single", []int{5}, 5, false},
-		{"multiple", []int{1, 2, 3}, 6, false},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := solutions.Exercise1Core(tt.input)
-			if tt.wantErr && err == nil {
-				t.Fatal("expected error")
-			}
-			if !tt.wantErr && got != tt.want {
-				t.Fatalf("got %d want %d", got, tt.want)
-			}
-		})
-	}
+type memRepo struct{ users map[string]solutions.User }
+
+func (m memRepo) GetByID(id string) (solutions.User, error) {
+	return m.users[id], nil
 }
 
-func TestExercise1Transform(t *testing.T) {
-	if got := solutions.Exercise1Transform("hello"); got != "olleh" {
-		t.Fatalf("got %q", got)
+func TestGetUserEmail(t *testing.T) {
+	repo := memRepo{users: map[string]solutions.User{"1": {ID: "1", Email: "a@b.com"}}}
+	email, err := solutions.GetUserEmail(repo, "1")
+	if err != nil || email != "a@b.com" {
+		t.Fatalf("email=%q err=%v", email, err)
 	}
 }

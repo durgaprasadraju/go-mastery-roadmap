@@ -2,13 +2,23 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/22-binary-search-tree/exercises/solutions"
 )
 
-func TestInterviewChallengeSolution(t *testing.T) {
-	got := solutions.InterviewChallengeSolution([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	if got != 6 {
-		t.Fatalf("got %d want 6", got)
+func TestIsValidBST(t *testing.T) {
+	valid := &solutions.TreeNode{
+		Val: 2,
+		Left: &solutions.TreeNode{Val: 1},
+		Right: &solutions.TreeNode{Val: 3},
+	}
+	if !solutions.IsValidBST(valid, -1<<62, 1<<62) {
+		t.Fatal("expected valid BST")
+	}
+	invalid := &solutions.TreeNode{
+		Val: 2,
+		Left: &solutions.TreeNode{Val: 3},
+	}
+	if solutions.IsValidBST(invalid, -1<<62, 1<<62) {
+		t.Fatal("expected invalid BST")
 	}
 }

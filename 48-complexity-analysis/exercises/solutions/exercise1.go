@@ -1,31 +1,23 @@
-// Package solutions contains reference implementations for Complexity Analysis exercises.
 package solutions
 
-import "errors"
+// CountOperations returns op count for linear scan of n elements.
+func CountOperations(n int) int { return n }
 
-var ErrInvalidInput = errors.New("complexity-analysis: invalid input")
+// CountNested returns op count for naive O(n^2) nested loop.
+func CountNested(n int) int { return n * n }
 
-// Exercise1Core demonstrates the fundamental Complexity Analysis pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// ClassifyGrowth returns big-O label for common growth rates.
+func ClassifyGrowth(n int, kind string) string {
+	switch kind {
+	case "constant":
+		return "O(1)"
+	case "linear":
+		return "O(n)"
+	case "quadratic":
+		return "O(n^2)"
+	case "log":
+		return "O(log n)"
+	default:
+		return "unknown"
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Complexity Analysis-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
 }

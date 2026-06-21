@@ -1,31 +1,14 @@
-// Package solutions contains reference implementations for Channels exercises.
 package solutions
 
-import "errors"
-
-var ErrInvalidInput = errors.New("channels: invalid input")
-
-// Exercise1Core demonstrates the fundamental Channels pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// PingPong sends n messages through a channel.
+func PingPong(n int) int {
+	ch := make(chan int, 1)
+	ch <- 0
+	count := 0
+	for i := 0; i < n; i++ {
+		<-ch
+		count++
+		ch <- count
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
-	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Channels-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
-	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
-	}
-	return string(runes)
+	return <-ch
 }

@@ -1,31 +1,31 @@
-// Package solutions contains reference implementations for Packages & Modules exercises.
 package solutions
 
-import "errors"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
 
-var ErrInvalidInput = errors.New("packages-modules: invalid input")
+// SemVer holds parsed version.
+type SemVer struct{ Major, Minor, Patch int }
 
-// Exercise1Core demonstrates the fundamental Packages & Modules pattern.
-// Time: O(n) typical | Space: O(1) auxiliary for this demo.
-func Exercise1Core(input []int) (int, error) {
-	if len(input) == 0 {
-		return 0, ErrInvalidInput
+// ParseSemVer parses major.minor.patch.
+func ParseSemVer(s string) (SemVer, error) {
+	parts := strings.Split(s, ".")
+	if len(parts) != 3 {
+		return SemVer{}, fmt.Errorf("invalid semver")
 	}
-	sum := 0
-	for _, v := range input {
-		sum += v
+	maj, err := strconv.Atoi(parts[0])
+	if err != nil {
+		return SemVer{}, err
 	}
-	return sum, nil
-}
-
-// Exercise1Transform applies a Packages & Modules-specific transformation.
-func Exercise1Transform(input string) string {
-	if input == "" {
-		return input
+	min, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return SemVer{}, err
 	}
-	runes := []rune(input)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	pat, err := strconv.Atoi(parts[2])
+	if err != nil {
+		return SemVer{}, err
 	}
-	return string(runes)
+	return SemVer{maj, min, pat}, nil
 }

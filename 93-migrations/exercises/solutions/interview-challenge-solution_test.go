@@ -2,13 +2,19 @@ package solutions_test
 
 import (
 	"testing"
-
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/93-migrations/exercises/solutions"
 )
 
-func TestInterviewChallengeSolution(t *testing.T) {
-	got := solutions.InterviewChallengeSolution([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	if got != 6 {
-		t.Fatalf("got %d want 6", got)
+type memRepo struct{ users map[string]solutions.User }
+
+func (m memRepo) GetByID(id string) (solutions.User, error) {
+	return m.users[id], nil
+}
+
+func TestGetUserEmail(t *testing.T) {
+	repo := memRepo{users: map[string]solutions.User{"1": {ID: "1", Email: "a@b.com"}}}
+	email, err := solutions.GetUserEmail(repo, "1")
+	if err != nil || email != "a@b.com" {
+		t.Fatalf("email=%q err=%v", email, err)
 	}
 }

@@ -1,21 +1,19 @@
 package solutions
 
-// InterviewChallengeSolution returns the maximum sum of any contiguous subarray (Kadane's).
-// Demonstrates Sorting Algorithms interview pattern. O(n) time, O(1) space.
-func InterviewChallengeSolution(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	maxCurrent, maxGlobal := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		if maxCurrent+nums[i] > nums[i] {
-			maxCurrent += nums[i]
-		} else {
-			maxCurrent = nums[i]
+// SortColors sorts nums in-place where values are 0, 1, or 2 (Dutch national flag).
+func SortColors(nums []int) {
+	lo, mid, hi := 0, 0, len(nums)-1
+	for mid <= hi {
+		switch nums[mid] {
+		case 0:
+			nums[lo], nums[mid] = nums[mid], nums[lo]
+			lo++
+			mid++
+		case 1:
+			mid++
+		case 2:
+			nums[mid], nums[hi] = nums[hi], nums[mid]
+			hi--
 		}
-		if maxCurrent > maxGlobal {
-			maxGlobal = maxCurrent
-		}
 	}
-	return maxGlobal
 }

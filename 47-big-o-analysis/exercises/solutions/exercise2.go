@@ -7,20 +7,20 @@ import (
 	"github.com/go-mastery-roadmap/go-mastery-roadmap/pkg/apperrors"
 )
 
-// Exercise2Service demonstrates production patterns for Big-O Analysis.
-type Exercise2Service struct {
-	Topic string
+// Service demonstrates production patterns for Big-O Analysis.
+type Service struct {
+	Name string
 }
 
-// Process runs with context cancellation support.
-func (s *Exercise2Service) Process(ctx context.Context, data string) (string, error) {
+// Process handles Big-O Analysis operations with context cancellation.
+func (s *Service) Process(ctx context.Context, input string) (string, error) {
 	select {
 	case <-ctx.Done():
-		return "", apperrors.Wrap(ctx.Err(), apperrors.CodeInternal, "Big-O Analysis processing cancelled")
+		return "", apperrors.Wrap(ctx.Err(), apperrors.CodeInternal, "Big-O Analysis cancelled")
 	default:
 	}
-	if data == "" {
-		return "", apperrors.New(apperrors.CodeValidation, "data is required")
+	if input == "" {
+		return "", apperrors.New(apperrors.CodeValidation, "input required")
 	}
-	return fmt.Sprintf("[%s] processed: %s", s.Topic, data), nil
+	return fmt.Sprintf("[%s] %s: %s", s.Name, "Big-O Analysis", input), nil
 }
